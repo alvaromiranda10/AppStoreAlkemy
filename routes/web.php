@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AppController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +17,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+})->name('welcome');
+
+
+Route::get('/redirect', [UserController::class, 'index'])->middleware(['auth']);
+
+// Rutas client
+Route::middleware(['auth', 'cli'])->prefix('me')->group(function () {
+    Route::get('/apps/lists', [AppController::class , 'index'])->name('client');
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Rutas Developer
+Route::middleware(['auth', 'dev'])->prefix('me')->group(function () {
+        Route::get('/apps', [AppController::class , 'indextwo'])->name('developer');
+});

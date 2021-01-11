@@ -103,8 +103,8 @@ return [
     */
 
     'limiters' => [
-        'login' => 'login',
-        'two-factor' => 'two-factor',
+        // 'login' => 'login',
+        // 'two-factor' => 'two-factor',
     ],
 
     /*
@@ -133,13 +133,13 @@ return [
 
     'features' => [
         Features::registration(),
-        Features::resetPasswords(),
+        // Features::resetPasswords(),
         // Features::emailVerification(),
-        Features::updateProfileInformation(),
-        Features::updatePasswords(),
-        Features::twoFactorAuthentication([
-            'confirmPassword' => true,
-        ]),
-    ],
+        // Features::updateProfileInformation(),
+        // Features::updatePasswords(),
+        // Features::twoFactorAuthentication([
+        //     'confirmPassword' => true,
+        // ])
+    ]
 
 ];
