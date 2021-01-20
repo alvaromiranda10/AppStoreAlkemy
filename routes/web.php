@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AppController;
+use App\Http\Controllers\DeveloperController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,19 +16,25 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+Route::get('/', [UserController::class, 'welcome'])->name('welcome');
+
+Route::get('/redirect', [UserController::class, 'redirect'])->name('redirect');
 
 
-Route::get('/redirect', [UserController::class, 'index'])->middleware(['auth']);
-
-// Rutas client
-Route::middleware(['auth', 'cli'])->prefix('me')->group(function () {
-    Route::get('/apps/lists', [AppController::class , 'index'])->name('client');
+// route user
+Route::middleware(['user'])->group(function () {
+    Route::get('/apps/lists', [UserController::class , 'index'])->name('user.index');
 });
 
-// Rutas Developer
+// routes client
+Route::middleware(['auth', 'cli'])->prefix('me')->group(function () {
+    Route::get('/apps/lists', [ClientController::class , 'index'])->name('client.index');
+});
+
+// routes Developer
 Route::middleware(['auth', 'dev'])->prefix('me')->group(function () {
-        Route::get('/apps', [AppController::class , 'indextwo'])->name('developer');
+        Route::get('/apps', [DeveloperController::class , 'index'])->name('developer.index');
+        Route::get('/apps/create', [DeveloperController::class , 'create'])->name('developer.create');
+        Route::post('/apps', [DeveloperController::class , 'store'])->name('developer.store');
+        Route::delete('/apps/{id}/delete', [DeveloperController::class , 'destroy'])->name('developer.destroy');
 });

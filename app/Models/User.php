@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Role;
+use App\Models\Application;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Psy\CodeCleaner\FunctionReturnInWriteContextPass;
@@ -48,6 +49,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
 
     public function authorizeRoles($roles)
     {

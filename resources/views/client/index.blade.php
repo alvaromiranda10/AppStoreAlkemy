@@ -1,21 +1,71 @@
 @extends('layouts.app')
 
+@section('style')
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/all.css">
+    <style>
+        .card:hover{
+            box-shadow: 0 25px 20px 0 rgba(0,0,0,.16), 0 -1px 2px 0 rgba(0,0,0,.1);
+        }
+
+        .text-lowercase:first-letter{
+            text-transform: uppercase;
+        }
+        
+        .card-img{
+            height: 200px;
+        }
+        
+        .card-footer{
+            border-top:0;
+        }
+        
+        @media (max-width: 575.98px) { 
+            .container{
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+            
+            .card-img{
+                height: 250px;
+            }
+            
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        @foreach ($applications as $application)
+        <div class="col-xl-3 col-lg-4 col-sm-6 mb-3">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
+                <div class="card-img">
+                    <img class="card-img-top img-fluid h-100" src="{{ asset('images/' .$application->image_src)  }}" alt="Card image cap">
+                </div>
+                <div class="card-header">
+                    <h4 class="text-center text-lowercase">{{ $application->name }}</h4>       
+                </div>
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+                    <h6 class="card-title text-secondary">$ {{ $application->price }}</h6>
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 55%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="5"></div>
+                            </div>
                         </div>
-                    @endif
-
-                    {{ __('You are logged as client') }}
+                        <div class="col-4">
+                            <small class="text-muted">245</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="{{ $application->id }}" class="btn btn-info stretched-link">Ver detalle</a>
                 </div>
             </div>
         </div>
+        @endforeach
+        
+    </div>
+    <div class="d-flex justify-content-center">
+        {{ $applications->links() }}
     </div>
 @endsection

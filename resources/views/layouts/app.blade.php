@@ -9,17 +9,17 @@
 
     <title>{{ config('app.name') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    @yield('style')
+    
 </head>
-<body>
+<body class="bg-white">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
         <a class="navbar-brand" href="{{ url('/') }}">
             {{ config('app.name', 'Laravel') }}
@@ -44,6 +44,9 @@
                         </li>
                     @else
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('redirect') }}">{{ __('Apps') }}</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                         </li>
                         <li class="nav-item">
@@ -52,9 +55,9 @@
                     @endif
                 @else
 
-                @if(Request::url() == route('welcome'))
+                @if(Request::url() != route('developer.index') && Request::url() != route('client.index'))
                     <li class="nav-item">
-                        <a class="nav-link" href="/redirect">{{ __('Apps') }}</a>
+                        <a class="nav-link" href="{{ route('redirect')}}">{{ __('Apps') }}</a>
                     </li>
                 @endif
                     
@@ -63,18 +66,18 @@
                         {{ Auth::user()->name }}
                     </a>
 
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" 
-                            href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                            document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                            @csrf
-                        </form>
-                    </div>
-                </li>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" 
+                                href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
                         
                 @endguest
             </ul>
@@ -84,5 +87,10 @@
 
         @yield('content')
     </div>
+
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
+    
+    @yield('script')
 </body>
 </html>

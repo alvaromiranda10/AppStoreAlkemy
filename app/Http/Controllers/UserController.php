@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -12,15 +14,34 @@ class UserController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(Request $request)
+    public function redirect(Request $request)
     {
-        if($request->user()->authorizeRoles(['client']))           
+        if(Auth::check())           
         {
-            return redirect('/me/apps/lists');  
+            if($request->user()->authorizeRoles(['developer']))
+            {
+                return redirect()->route('developer.index');
+            }
+            else
+            {
+                return redirect()->route('client.index');
+            }
         }
         else
         {
-            return redirect('/me/apps');
+                return redirect()->route('user.index');
         }
+    }
+
+    public function welcome()
+    {
+        return view('welcome');
+    }
+    
+    public function index()
+    {
+        $applications = Application::with('categories')
+                                    ->paginate(10);
+        return view('client.index', compact('applications'));
     }
 }
