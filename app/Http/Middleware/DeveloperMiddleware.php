@@ -23,7 +23,7 @@ class DeveloperMiddleware
         }
         else
         {
-            return redirect()->route('client');
+            return redirect()->route('client.index');
         }
     }
 }

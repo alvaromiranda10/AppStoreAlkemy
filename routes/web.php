@@ -29,6 +29,8 @@ Route::middleware(['user'])->group(function () {
 // routes client
 Route::middleware(['auth', 'cli'])->prefix('me')->group(function () {
     Route::get('/apps/lists', [ClientController::class , 'index'])->name('client.index');
+    Route::get('/apps/categories', [ClientController::class , 'listCategories'])->name('client.categories');
+    Route::get('/apps/category/{category}', [ClientController::class , 'listAppsCategory'])->name('client.appcategory');
 });
 
 // routes Developer

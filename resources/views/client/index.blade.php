@@ -58,7 +58,7 @@
                     </div>
                 </div>
                 <div class="card-footer bg-white">
-                    <a href="{{ $application->id }}" class="btn btn-info stretched-link">Ver detalle</a>
+                    <a href="{{ route('client.appdetail' ,$application->id) }}" class="btn btn-info stretched-link">Ver detalle</a>
                 </div>
             </div>
         </div>
