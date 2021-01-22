@@ -37,4 +37,6 @@ Route::middleware(['auth', 'dev'])->prefix('me')->group(function () {
         Route::get('/apps/create', [DeveloperController::class , 'create'])->name('developer.create');
         Route::post('/apps', [DeveloperController::class , 'store'])->name('developer.store');
         Route::delete('/apps/{id}/delete', [DeveloperController::class , 'destroy'])->name('developer.destroy');
+        Route::get('/apps/{id}/edit', [DeveloperController::class , 'edit'])->name('developer.edit');
+        Route::put('/apps/{id}', [DeveloperController::class , 'update'])->name('developer.update');
 });

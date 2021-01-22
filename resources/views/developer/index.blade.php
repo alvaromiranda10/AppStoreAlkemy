@@ -9,7 +9,15 @@
         <div class="col-md-8">
             {{-- TEST begin --}}
             @if(!empty(Session::get('success')))
-            <div class="alert alert-success"> {{ Session::get('success') }}</div>
+            <div class="alert alert-dismissable alert-success">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <strong>
+                    {{ Session::get('success') }}
+                </strong>
+            </div>
+            {{-- <div class="alert alert-success"> {{ Session::get('success') }}</div> --}}
             @endif
             {{-- TEST end --}}
             <div class="card">
@@ -50,7 +58,7 @@
                                           Actions
                                         </button>
                                         <div class="dropdown-menu">
-                                            <a class="dropdown-item text-secondary" href="#">
+                                            <a class="dropdown-item text-secondary" href="{{ route('developer.edit' , $application->id) }}">
                                                 <i class="fas fa-edit"></i>
                                                 edit
                                             </a>
