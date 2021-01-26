@@ -4,16 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Application;
-use App\Models\Historical_price;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreApplicationRequest;
 
 class DeveloperController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $applications = Application::with('categories')
-                                    ->where('user_id', '=', Auth::user()->id)
+        $applications = Application::where('user_id', '=', Auth::user()->id)
+                                    ->orderBy('id', 'desc')
                                     ->get();
         return view('developer.index', compact('applications'));
     }
@@ -24,22 +24,21 @@ class DeveloperController extends Controller
         return view('developer.create', compact('categories'));
     }
     
-    public function store(Request $request)
+    public function store(StoreApplicationRequest $request)
     {
         $input = $request->all();
         $input['user_id'] = Auth::user()->id;
+
         $imageName = time().'.'.$request->image_src->extension();
         $request->image_src->move(public_path('images'), $imageName);
         $input['image_src'] = $imageName;
-        $application = Application::create($input);
-        
-        Historical_price::create([
-            'price' => $application->price,
-            'application_id' => $application->id
-        ]);
 
+        $application = Application::create($input);
+
+        $application->historicalPrice()->create($input);
+        
         $categories = Category::all();
-        return redirect()->route('developer.index', compact('categories'))->with('success', 'App Created');
+        return redirect()->route('developer.index', compact('categories'))->with('msj', 'App Created');
     }
     
     public function destroy($id)
@@ -50,42 +49,44 @@ class DeveloperController extends Controller
         {
             unlink($image_src);
             Application::destroy($id);
-        }
 
-        return redirect()->route('developer.index')->with('success', 'App deleted');
+            return redirect()->route('developer.index')->with('msj', 'App deleted');
+        }
+        
+        return redirect()->route('developer.index')->with('msj', 'App not removed');
     }
 
     public function edit($id)
     {
-
-        $application = Application::with('categories')
-                    ->where('id', '=', $id)
-                    ->first();
+        $application = Application::findOrFail($id);
 
         return view('developer.edit', compact('application'));
     }
 
     public function update(Request $request, $id)
     {
+        $application = Application::findOrFail($id);
+        $input = $request->all();
+
+        
+        if($application->price != $request->price)
+        {
+            $application->historicalPrice()->create($input);
+        }
+
         if($request->has('image_src'))
         {            
-
-            $this->recordPriceHistory($request, $id);
-
             $input = $request->all();
             $input['image_src'] = $this->updateImageUrl($request, $id);
             Application::find($id)->update($input);
-            
         }
         else
         {
-            
-            $this->recordPriceHistory($request, $id);
-            Application::find($id)->update($request->only('price'));
+            // $input = $request->only('price');
+            Application::find($id)->update($input);
         }
-                
-        return redirect()->route('developer.index')->with('success', 'App update');
 
+        return redirect()->route('developer.index')->with('msj', 'App update');
     }
 
     public function updateImageUrl(Request $request, $id)
@@ -105,17 +106,4 @@ class DeveloperController extends Controller
         return $imageName;
 
     }
-
-    public function recordPriceHistory(Request $request, $id)
-    {
-        $application = Application::findOrFail($id);
-            if($application->price != $request->price)
-            {
-                Historical_price::create([
-                    'price' => $request->price,
-                    'application_id' => $id
-                    ]);
-            }
-    }
-    
 }

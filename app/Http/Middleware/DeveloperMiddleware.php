@@ -17,7 +17,7 @@ class DeveloperMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::check() && $request->user()->authorizeRoles(['developer']))           
+        if(Auth::check() && $request->user()->roles->first()->name == 'developer')           
         {
             return $next($request);  
         }

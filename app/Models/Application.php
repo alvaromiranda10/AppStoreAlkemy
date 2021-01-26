@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Cart;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Wish_list;
 use App\Models\Historical_price;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,9 +26,21 @@ class Application extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function historical_prices()
+    public function historicalPrice()
     {
         return $this->hasMany(Historical_price::class);
+    }
+
+    // polymorphic relationship
+
+    public function carts()
+    {
+        return $this->morphedByMany(Cart::class, 'applicationable');
+    }
+    
+    public function whis_lists()
+    {
+        return $this->morphedByMany(Wish_list::class, 'applicationable');
     }
 
 }

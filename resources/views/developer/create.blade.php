@@ -60,7 +60,7 @@
                             </label>
                             <input type="number" name="price" step=".01" min="0.01" max="9999.99" class="form-control" id="price" required>
                             <div class="invalid-feedback">
-                                Enter a price.
+                                Enter a price between 0,01 and 9999,99.
                             </div>
                             <div>
                                 @if($errors->has('price'))

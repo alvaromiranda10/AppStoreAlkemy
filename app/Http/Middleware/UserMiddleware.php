@@ -17,10 +17,9 @@ class UserMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        // BUG: AL NO ESTAR LOGEADO EL $request VIENE VACIO CON LO CUAL GENERA ERROR
         if(Auth::check())           
         {
-            if($request->user()->authorizeRoles(['developer']))
+            if($request->user()->roles->first()->name == 'developer')
             {
                 return redirect()->route('developer.index');
             }

@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Cart;
 use App\Models\Role;
+use App\Models\Wish_list;
 use App\Models\Application;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Psy\CodeCleaner\FunctionReturnInWriteContextPass;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -54,38 +54,13 @@ class User extends Authenticatable
         return $this->hasMany(Application::class);
     }
 
-    public function authorizeRoles($roles)
+    public function cart()
     {
-        if ($this->hasAnyRole($roles)) {
-            return true;
-        }
-        else{
-            return false;
-            // abort(401, 'Esta acción no está autorizada.');
-        }
+        return $this->hasOne(Cart::class);
     }
-
-    public function hasAnyRole($roles)
+    
+    public function wishList()
     {
-        if (is_array($roles)) {
-            foreach ($roles as $role) {
-                if ($this->hasRole($role)) {
-                    return true;
-                }
-            }
-        } else {
-            if ($this->hasRole($roles)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public function hasRole($role)
-    {
-        if ($this->roles()->where('name', $role)->first()) {
-            return true;
-        }
-        return false;
+        return $this->hasOne(Wish_list::class);
     }
 }

@@ -6,6 +6,7 @@
         }
     </style>
 @endsection
+
 @section('content')
         @foreach($categories as $category)
         <a href="{{ route('client.appcategory', $category->id)}}" class="btn btn-outline-primary btn-lg">

@@ -8,16 +8,15 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             {{-- TEST begin --}}
-            @if(!empty(Session::get('success')))
-            <div class="alert alert-dismissable alert-success">
+            @if(!empty(Session::get('msj')))
+            <div class="alert alert-dismissable alert-info fade show" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <strong>
-                    {{ Session::get('success') }}
+                    {{ Session::get('msj') }}
                 </strong>
             </div>
-            {{-- <div class="alert alert-success"> {{ Session::get('success') }}</div> --}}
             @endif
             {{-- TEST end --}}
             <div class="card">

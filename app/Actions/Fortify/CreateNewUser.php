@@ -2,10 +2,13 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\Cart;
+use App\Models\Role;
 use App\Models\User;
+use App\Models\Wish_list;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 class CreateNewUser implements CreatesNewUsers
@@ -40,7 +43,13 @@ class CreateNewUser implements CreatesNewUsers
         ]);
 
         $user->roles()->attach($input['role']);
-
+        
+        if(Role::find($input['role'])->name == 'client')
+        {
+            Cart::create(['user_id' => $user->id]);
+            Wish_list::create(['user_id' => $user->id]);
+        }
+        
         return $user;
     }
 }
