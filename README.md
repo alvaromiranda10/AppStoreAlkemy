@@ -1,3 +1,61 @@
+# Challenge PHP [Link](https://www.alkemy.org/challenges)
+
+### Requirements
+
+ - Laravel 8.12
+ - Composer 1.10.15
+ - Xampp 3.2.4
+ - php 7.4.6
+ - git 2.29.0
+
+Open your favorite Terminal and run these commands.
+
+1. Step:
+```sh
+$ git clone https://github.com/alvaromiranda10/AppStoreAlkemy.git
+```
+2. Step:
+```sh
+$ cd AppStoreAlkemy
+```
+3. Step:
+```sh
+$ cp .env.example .env
+```
+4. Step:
+a.  Crear con XAMPP la base de datos: appstorealkemy
+b. Configurar la variable de entorno dela DB en el archivo .env
+```
+DB_DATABASE=appstorealkemy
+```
+
+5. Step:
+```sh
+$ composer install
+```
+
+ 6. Step:
+```
+$ composer artisan key:generate
+```
+
+ 7. Step:
+```
+$ composer artisan migrate:fresh --seed
+```
+
+ 8. Descomentar la siguiente linea del archivo  [app\Providers\FortifyServiceProvider.php]:
+ 
+```php
+51 $roles = Role::all();
+52 Fortify::registerView(fn () => view('auth.register', ['roles' => $roles]));
+```
+
+ 9. Step:
+```
+$ php artisan serve
+```
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
