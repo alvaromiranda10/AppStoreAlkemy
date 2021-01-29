@@ -24,7 +24,7 @@ $ cp .env.example .env
 ```
 4. Step:
 a.  Crear con XAMPP la base de datos: appstorealkemy
-b. Configurar la variable de entorno dela DB en el archivo .env
+b. Configurar la variable de entorno DB_DATABASE en el archivo .env
 ```
 DB_DATABASE=appstorealkemy
 ```

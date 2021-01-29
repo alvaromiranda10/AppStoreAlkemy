@@ -48,8 +48,9 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::loginView(fn () => view('auth.login'));
 
-        $roles = Role::all();
-        Fortify::registerView(fn () => view('auth.register', ['roles' => $roles]));
+        // $roles = Role::all();
+        // Fortify::registerView(fn () => view('auth.register', ['roles' => $roles]));
+        Fortify::registerView(fn () => view('auth.register'));
         
     }
 }

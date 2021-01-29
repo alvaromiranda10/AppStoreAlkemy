@@ -45,9 +45,11 @@
                             <div class="col-md-6">
                                 <select id="role" class="custom-select @error('role') is-invalid @enderror" name="role" value="{{ old('role') }}" required>
                                     <option selected="true" disabled="disabled">{{ __('Seleccione una opcion')}}</option>
-                                    @foreach ( $roles as $role )
+                                    <option value="1">Developer</option>
+                                    <option value="2">Client</option>
+                                    {{-- @foreach ( $roles as $role )
                                     <option value="{{$role->id}}">{{ $role->name }}</option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
 
                                 @error('role')
