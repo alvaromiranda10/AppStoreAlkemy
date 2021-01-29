@@ -36,12 +36,12 @@ $ composer install
 
  6. Step:
 ```
-$ composer artisan key:generate
+$ php artisan key:generate
 ```
 
  7. Step:
 ```
-$ composer artisan migrate:fresh --seed
+$ php artisan migrate:fresh --seed
 ```
 
  8. Descomentar la siguiente linea del archivo  [app\Providers\FortifyServiceProvider.php]:
