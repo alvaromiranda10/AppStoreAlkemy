@@ -13,6 +13,7 @@ class Historical_price extends Model
     public $timestamps = false;
 
     protected $fillable = ['price', 'application_id', 'created_at'];
+    protected $hidden = ['updated_at'];
 
     public function applications()
     {

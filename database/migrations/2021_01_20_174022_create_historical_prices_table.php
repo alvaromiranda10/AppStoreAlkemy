@@ -17,7 +17,7 @@ class CreateHistoricalPricesTable extends Migration
             $table->id();
             $table->decimal('price');
             $table->unsignedBigInteger('application_id');
-            $table->timestampTz('created_at', $precision = 0);
+            $table->timestamps();
 
             $table->foreign('application_id')->references('id')->on('applications')->onDelete('cascade');
         });
