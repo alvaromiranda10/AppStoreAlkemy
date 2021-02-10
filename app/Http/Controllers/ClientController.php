@@ -24,13 +24,9 @@ class ClientController extends Controller
         return view('client.index', compact('wish_list_app', 'cart_app'));
     }
 
-    public function listsCategories(Application $application)
+    public function listsCategories()
     {
-        $categories = $application::select('categories.id', 'categories.name', DB::raw('count(applications.id) as cantapp'))
-                                    ->join('categories', 'categories.id', '=', 'applications.category_id')
-                                    ->groupBy('categories.id', 'categories.name')
-                                    ->orderBy('name')
-                                    ->get();
+        $categories = Category::withCount('applications')->get();
 
         return view('client.categories', compact('categories'));
     }
